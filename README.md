@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/ralphtheninja/match-sink.svg?branch=master)](https://travis-ci.org/ralphtheninja/match-sink)
+
 # match-sink
 
 * Pipe data to a stream and get notified when something matches
