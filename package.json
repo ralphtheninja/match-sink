@@ -1,6 +1,6 @@
 {
   "name": "match-sink",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "pipe data to a stream and react to single or multiple matches",
   "main": "index.js",
   "homepage": "https://github.com/ralphtheninja/match-sink",
@@ -13,7 +13,12 @@
     "test": "tape test/*.js | faucet"
   },
   "author": "Lars-Magnus Skog <ralphtheninja@riseup.net>",
-  "keywords": [ "stream", "sink", "parse", "match" ],
+  "keywords": [
+    "stream",
+    "sink",
+    "parse",
+    "match"
+  ],
   "license": "WTFPL",
   "devDependencies": {
     "core-util-is": "^1.0.1",
