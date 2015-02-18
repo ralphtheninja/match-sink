@@ -1,32 +1,30 @@
 var through = require('through2')
 var util = require('core-util-is')
 
-function matchSink(opts, callback) {
+function matchSink(opts, iter) {
 
   var regex = util.isRegExp(opts) ? opts : opts.regex
   if (!util.isRegExp(regex)) throw new Error('missing regular expression')
-  if (typeof callback != 'function') throw new Error('missing callback')
+  if (typeof iter != 'function') throw new Error('missing callback')
 
   var matched = false
 
-  return through(function (chunk, enc, next) {
+  return through(function (chunk, enc, callback) {
     var str = chunk.toString()
     var match = regex.exec(str)
 
-    // did not find it -> keep parsing
-    if (!match) return next()
-
-    // found it
-    if (true === opts.matchAll) {
-      return callback(match)
+    if (match) {
+      if (true === opts.matchAll) {
+        iter(match)
+      }
+      else if (false === matched) {
+        matched = true
+        iter(match)
+      }
     }
 
-    // match once
-    if (false === matched) {
-      matched = true
-      return callback(match)
-    }
-
+    this.push(chunk)
+    callback()
   })
 
 }

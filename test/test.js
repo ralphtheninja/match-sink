@@ -1,27 +1,55 @@
+var sink = require('../')
 var test = require('tape')
-var wait = require('../')
+var split = require('split')
+var spawn = require('child_process').spawn
 
-test('wait-sink', function (t) {
-  t.throws(function () { wait() })
-  t.throws(function () { wait({}) })
-  t.throws(function () { wait({ regex: /foo/gi }) })
-  t.throws(function () { wait(/foo/gi) })
-  t.throws(function () { wait({ regex: new RegExp('bar') }) })
-  t.throws(function () { wait(new RegExp('bar')) })
-  t.doesNotThrow(function () { wait({ regex: /foo/gi }, function () {}) })
-  t.doesNotThrow(function () { wait(/foo/gi, function () {}) })
-  t.doesNotThrow(function () { wait({ regex: new RegExp('bar') }, function () {}) })
-  t.doesNotThrow(function () { wait(new RegExp('bar'), function () {}) })
+test('match-sink', function (t) {
+  t.throws(function () { sink() }, 'no parameters')
+  t.throws(function () { sink({}) }, 'empty options')
+  t.throws(function () { sink({ regex: /foo/gi }) }, 'missing callback')
+  t.throws(function () { sink(/foo/gi) }, 'missing callback')
+  t.throws(function () {
+    sink({ regex: new RegExp('bar') })
+  }, 'missing callback')
+  t.throws(function () {
+    sink(new RegExp('bar'))
+  }, 'missing callback')
+  t.doesNotThrow(function () {
+    sink({ regex: /foo/gi }, function () {})
+  }, 'valid parameters')
+  t.doesNotThrow(function () {
+    sink(/foo/gi, function () {})
+  }, 'valid parameters')
+  t.doesNotThrow(function () {
+    sink({ regex: new RegExp('bar') }, function () {})
+  }, 'valid parameters')
+  t.doesNotThrow(function () {
+    sink(new RegExp('bar'), function () {})
+  }, 'valid parameters')
   t.end()
 })
 
-var sink = require('../')
-var spawn = require('child_process').spawn
-spawn('ls', [ '-lh' ]).stdout.pipe(sink(/total\s+(\S+)/gi, function (match) {
-  console.log(match[1])
-}))
+test('single match while parsing file size from from ls -lh', function (t) {
+  var count = 0
+  var child = spawn('ls', [ '-lh' ])
+  child.stdout.pipe(split()).pipe(sink(/^total\s+(\S+)/, function (match) {
+    ++count
+  }))
+  child.on('close', function (code) {
+    t.equal(count, 1, 'should be a single match')
+    t.end()
+  })
+})
 
-// TODO add some real parsing tests, for multiple and single matches
-//test('', function (t) {
-  //t.end()
-//})
+test('multiple match while parsing output from ls -al', function (t) {
+  var count = 0
+  var child = spawn('ls', [ '-al' ], { cwd: __dirname })
+  var opts = { regex: /^d/i, matchAll: true }
+  child.stdout.pipe(split()).pipe(sink(opts, function (match) {
+    ++count
+  }))
+  child.on('close', function (code) {
+    t.equal(count, 2, 'should match folders . and ..')
+    t.end()
+  })
+})
