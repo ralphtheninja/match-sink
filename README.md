@@ -2,6 +2,8 @@
 
 # match-sink
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/ralphtheninja/match-sink.svg)](https://greenkeeper.io/)
+
 * Pipe data to a stream and get notified when something matches
 * Match once or multiple times
 
