@@ -23,10 +23,10 @@
   "devDependencies": {
     "core-util-is": "^1.0.1",
     "faucet": "0.0.1",
-    "split": "^0.3.3",
-    "tape": "^3.5.0"
+    "split": "^1.0.1",
+    "tape": "^4.8.0"
   },
   "dependencies": {
-    "through2": "^0.6.3"
+    "through2": "^2.0.3"
   }
 }
