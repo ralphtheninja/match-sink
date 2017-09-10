@@ -1,11 +1,10 @@
 var through = require('through2')
 var util = require('core-util-is')
 
-function matchSink(opts, iter) {
-
+function matchSink (opts, iter) {
   var regex = util.isRegExp(opts) ? opts : opts.regex
   if (!util.isRegExp(regex)) throw new Error('missing regular expression')
-  if (typeof iter != 'function') throw new Error('missing callback')
+  if (typeof iter !== 'function') throw new Error('missing callback')
 
   var matched = false
 
@@ -14,10 +13,9 @@ function matchSink(opts, iter) {
     var match = regex.exec(str)
 
     if (match) {
-      if (true === opts.matchAll) {
+      if (opts.matchAll === true) {
         iter(match)
-      }
-      else if (false === matched) {
+      } else if (matched === false) {
         matched = true
         iter(match)
       }
@@ -26,7 +24,6 @@ function matchSink(opts, iter) {
     this.push(chunk)
     callback()
   })
-
 }
 
 module.exports = matchSink
