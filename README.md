@@ -1,8 +1,11 @@
-[![Build Status](https://travis-ci.org/ralphtheninja/match-sink.svg?branch=master)](https://travis-ci.org/ralphtheninja/match-sink)
-
 # match-sink
 
+> Pipe data to a stream and react to single or multiple matches
+
+[![Build Status](https://travis-ci.org/ralphtheninja/match-sink.svg?branch=master)](https://travis-ci.org/ralphtheninja/match-sink)
 [![Greenkeeper badge](https://badges.greenkeeper.io/ralphtheninja/match-sink.svg)](https://greenkeeper.io/)
+
+## Features
 
 * Pipe data to a stream and get notified when something matches
 * Match once or multiple times
@@ -12,27 +15,34 @@ Can be useful for various things. Imagine some data stream you want to react to.
 ## Install
 
 ```
-$ npm install match-sink --save
+$ npm install match-sink -S
 ```
 
 ## Usage
 
-Print out the total file size in the current directory.
+The following example prints out the total file size in the current directory:
 
 ```js
-var sink = require('match-sink')
-var spawn = require('child_process').spawn
-spawn('ls', [ '-lh' ]).stdout.pipe(sink(/total\s+(\S+)/gi, function (match) {
+const sink = require('match-sink')
+const spawn = require('child_process').spawn
+spawn('ls', [ '-lh' ]).stdout.pipe(sink(/total\s+(\S+)/gi, match => {
   console.log(match[1])
 }))
 ```
 
 ## Api
 
-### `sink(opts, cb)`
+### `const sink = require('match-sink')`
 
-* opts *(object|regexp)* Either options object with `regexp` and `matchAll` properties or a single regular expression.
-* cb *(function)* Callback. Will act as an iterator if there are several matches and `matchAll` property is set to `true`. If `opts` is a regular expression the callback will be called at the first match only, if ever.
+Returns a stream constructor.
+
+### `const stream = sink(opts, cb)`
+
+Returns a writable stream.
+
+* `opts` *(object|regexp)* Either options object with `regexp` and `matchAll` properties or a single regular expression.
+* `cb` *(function)* Callback. Will act as an iterator if there are several matches and `matchAll` property is set to `true`. If `opts` is a regular expression the callback will be called at the first match only, if ever.
 
 ## License
+
 All code, unless stated otherwise, is licensed under the [`WTFPL`](http://www.wtfpl.net/txt/copying/).
