@@ -3,6 +3,7 @@
 > Pipe data to a stream and react to single or multiple matches
 
 [![Build Status](https://travis-ci.org/ralphtheninja/match-sink.svg?branch=master)](https://travis-ci.org/ralphtheninja/match-sink)
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 [![Greenkeeper badge](https://badges.greenkeeper.io/ralphtheninja/match-sink.svg)](https://greenkeeper.io/)
 
 ## Features
