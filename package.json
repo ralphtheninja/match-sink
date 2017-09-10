@@ -10,7 +10,7 @@
   },
   "scripts": {
     "start": "node index.js",
-    "test": "tape test/*.js | faucet"
+    "test": "standard && tape test/*.js"
   },
   "author": "Lars-Magnus Skog <ralphtheninja@riseup.net>",
   "keywords": [
@@ -22,11 +22,11 @@
   "license": "WTFPL",
   "devDependencies": {
     "core-util-is": "^1.0.1",
-    "faucet": "0.0.1",
-    "split": "^0.3.3",
-    "tape": "^3.5.0"
+    "split": "^1.0.1",
+    "standard": "^10.0.3",
+    "tape": "^4.8.0"
   },
   "dependencies": {
-    "through2": "^0.6.3"
+    "through2": "^2.0.3"
   }
 }
